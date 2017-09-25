@@ -51,6 +51,7 @@ api.get('/metrics/count/:metric/:host', async (req, res, next) => {
   debug(`Request has come to /metrics/count/${metric}/${host}`)
 
   let results = {}
+  let value = null
 
   const query = {
     metrics: [metric],
@@ -70,7 +71,7 @@ api.get('/metrics/count/:metric/:host', async (req, res, next) => {
 api.get('/metrics/:metric/:host', async (req, res, next) => {
   const metric = req.params.metric
   const host = req.params.host
-  const limit  = req.query.rpp
+  const limit = req.query.rpp
 
   console.log(limit)
 
@@ -95,28 +96,26 @@ api.get('/metrics/:metric/:host', async (req, res, next) => {
 })
 
 api.get('/histogram/:host', async (req, res, next) => {
-  
-  //URl params
+  // URl params
   const host = req.params.host
 
-  //Query Url Params
-  let filters      = req.query.filters
-  const limit      = req.query.rpp
-  const resolution =  req.query.resolution || config.influx.resolution
+  // Query Url Params
+  let filters = req.query.filters
+  const resolution = req.query.resolution || config.influx.resolution
 
-  debug(`Request has come to /histogram/${host}`)  
+  debug(`Request has come to /histogram/${host}`)
 
-  if(filters){
-    try{
+  if (filters) {
+    try {
       filters = JSON.parse(filters)
-    }catch(err){
-      return next(new Error("An error ocurred trying to parse filters"))
+    } catch (err) {
+      return next(new Error('An error ocurred trying to parse filters'))
     }
-  } 
+  }
 
-  let now = moment().tz(config.influx.timezone).utc()  
+  let now = moment().tz(config.influx.timezone).utc()
 
-  filters = defaults(filters,{
+  filters = defaults(filters, {
     from: now.clone().subtract(1, 'hour').valueOf(),
     to: now.valueOf()
   })
@@ -129,7 +128,6 @@ api.get('/histogram/:host', async (req, res, next) => {
 
   let from = moment(filters.from).tz(config.influx.timezone).utc().format()
   let to = moment(filters.to).tz(config.influx.timezone).utc().format()
-
 
   const query = {
     metrics: [filters.metrics],
@@ -147,9 +145,8 @@ api.get('/histogram/:host', async (req, res, next) => {
     return next(e)
   }
 
-  //console.log(results)
+  // console.log(results)
   res.send(results.groupRows)
 })
-
 
 module.exports = api
