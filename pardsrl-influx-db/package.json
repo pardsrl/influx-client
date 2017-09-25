@@ -1,0 +1,31 @@
+{
+  "name": "pardsrl-influx-db",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PardSrl IoT Platform - Influx Db",
+  "main": "index.js",
+  "scripts": {
+    "lint": "standard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pardsrl/pardsrl-influx.git"
+  },
+  "author": "Santiago Semhan <santiagosemhan@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pardsrl/pardsrl-influx/issues"
+  },
+  "homepage": "https://github.com/pardsrl/pardsrl-influx#readme",
+  "dependencies": {
+    "chalk": "^2.1.0",
+    "debug": "^3.0.1",
+    "defaults": "^1.0.3",
+    "influx": "^5.0.7",
+    "moment": "^2.18.1",
+    "moment-timezone": "^0.5.13"
+  },
+  "devDependencies": {
+    "standard": "^10.0.3"
+  }
+}
