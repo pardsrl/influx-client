@@ -39,8 +39,6 @@ api.get('/metrics/show', async (req, res, next) => {
     return next(e)
   }
 
-  console.log(results)
-
   res.send(results)
 })
 
@@ -72,8 +70,6 @@ api.get('/metrics/:metric/:host', async (req, res, next) => {
   const metric = req.params.metric
   const host = req.params.host
   const limit = req.query.rpp
-
-  console.log(limit)
 
   debug(`Request has come to /metrics/${metric}/${host}`)
 
@@ -145,7 +141,6 @@ api.get('/histogram/:host', async (req, res, next) => {
     return next(e)
   }
 
-  // console.log(results)
   res.send(results.groupRows)
 })
 
