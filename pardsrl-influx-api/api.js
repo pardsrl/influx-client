@@ -98,6 +98,7 @@ api.get('/histogram/:host', async (req, res, next) => {
   // Query Url Params
   let filters = req.query.filters
   const resolution = req.query.resolution || config.influx.resolution
+  const sampleRate = req.query.sampleRate || config.influx.sampleRate
 
   debug(`Request has come to /histogram/${host}`)
 
@@ -105,7 +106,7 @@ api.get('/histogram/:host', async (req, res, next) => {
     try {
       filters = JSON.parse(filters)
     } catch (err) {
-      return next(new Error('An error ocurred trying to parse filters'))
+      return next(new Error(err.message))
     }
   }
 
@@ -119,8 +120,12 @@ api.get('/histogram/:host', async (req, res, next) => {
   let results = {}
 
   let range = (filters.to - filters.from) / resolution
+  
+  let roundRange = Math.round(range)
 
-  let group = Math.round(range).toString().concat('ms')
+  //Si el tiempo de muestreo es menor a la tasa de muestreo, se toma la tasa de muestreo(sampleRate)
+  //como minimo tiempo de agrupamiento
+  let group = roundRange <= sampleRate ? sampleRate : roundRange 
 
   let from = moment(filters.from).tz(config.influx.timezone).utc().format()
   let to = moment(filters.to).tz(config.influx.timezone).utc().format()
@@ -131,7 +136,7 @@ api.get('/histogram/:host', async (req, res, next) => {
     value: 'value',
     from,
     to,
-    group,
+    group: group.toString().concat('ms'),
     fill: -1
   }
 

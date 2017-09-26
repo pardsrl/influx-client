@@ -15,6 +15,7 @@ module.exports = {
     time_format: process.env.TIME_FORMAT || 'x',
     limit: process.env.IDB_LIMIT || 10,
     resolution: process.env.IDB_HISTOGRAM_RESOLUTION || 2000,
+    sampleRate: process.env.SAMPLE_RATE || 250,
     precision: Precision.Milliseconds
   }
 }
