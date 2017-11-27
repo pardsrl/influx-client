@@ -84,10 +84,32 @@ module.exports = function setupMetric (influx) {
     return result
   }
 
+  async function maxBy (query, options) {
+    query = processQueryOptions(query)
+
+    let from = metricsFromQueryOptions(query)
+
+    let where = whereFromQueryOptions(query)
+
+    let queryStr = `SELECT max("${query.value}") ${from} ${where} GROUP BY time(${query.group}) FILL(${query.fill})`
+
+    debug(`${chalk.green('[Running query]')} ${queryStr}`)
+
+    let result = await influx.query(
+        queryStr,
+        processIQueryOptionsDefaults(options)
+      )
+
+    debug(`${chalk.green('[Info]')} Query executed successfully!`)
+
+    return result
+  }
+
   return {
     show,
     findAll,
     countBy,
-    meanBy
+    meanBy,
+    maxBy
   }
 }

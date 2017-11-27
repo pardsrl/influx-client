@@ -141,7 +141,8 @@ api.get('/histogram/:host', async (req, res, next) => {
   }
 
   try {
-    results = await Metric.meanBy(query)
+    //results = await Metric.meanBy(query)
+    results = await Metric.maxBy(query)
   } catch (e) {
     return next(e)
   }
