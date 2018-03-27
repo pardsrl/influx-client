@@ -120,12 +120,12 @@ api.get('/histogram/:host', async (req, res, next) => {
   let results = {}
 
   let range = (filters.to - filters.from) / resolution
-  
+
   let roundRange = Math.round(range)
 
-  //Si el tiempo de muestreo es menor a la tasa de muestreo, se toma la tasa de muestreo(sampleRate)
-  //como minimo tiempo de agrupamiento
-  let group = roundRange <= sampleRate ? sampleRate : roundRange 
+  // Si el tiempo de muestreo es menor a la tasa de muestreo, se toma la tasa de muestreo(sampleRate)
+  // como minimo tiempo de agrupamiento
+  let group = roundRange <= sampleRate ? sampleRate : roundRange
 
   let from = moment(filters.from).tz(config.influx.timezone).utc().format()
   let to = moment(filters.to).tz(config.influx.timezone).utc().format()
@@ -141,13 +141,29 @@ api.get('/histogram/:host', async (req, res, next) => {
   }
 
   try {
-    //results = await Metric.meanBy(query)
+    // results = await Metric.meanBy(query)
     results = await Metric.maxBy(query)
   } catch (e) {
     return next(e)
   }
 
   res.send(results.groupRows)
+})
+
+// POST metric
+api.post('/metrics', async function (req, res, next) {
+  const metrics = req.body
+  debug(`Post request has come to /metrics`)
+
+  let results
+
+  try {
+    results = await Metric.write(metrics)
+  } catch (e) {
+    return next(e)
+  }
+
+  res.send({ status: 'ok', detail: 'Write succesfull'})
 })
 
 module.exports = api

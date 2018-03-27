@@ -105,11 +105,33 @@ module.exports = function setupMetric (influx) {
     return result
   }
 
+  /**
+   * Write points into db
+   * 
+   * @param {*} host 
+   * @param Array metrics array with the following object structure in: [{
+   *   measurement: metric.type,
+   *   tags:       { host: host },
+   *   fields:     { value: metric.value },
+   *  }...]
+   *   
+   */
+  async function write(metrics){
+
+    let result = await influx.writePoints(metrics).catch(err => {
+      debug(`${chalk.red('[Error]')} Write points failed! ${err.stack}`)
+      throw err
+    })
+
+    return result
+  }
+
   return {
     show,
     findAll,
     countBy,
     meanBy,
-    maxBy
+    maxBy,
+    write
   }
 }

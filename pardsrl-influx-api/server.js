@@ -11,6 +11,8 @@ const app = express()
 
 const server = http.createServer(app)
 
+app.use(express.json())
+app.use(express.urlencoded())
 app.use('/api', api)
 
 // Express Error Handler
