@@ -6,7 +6,7 @@
   "main": "server.js",
   "scripts": {
     "lint": "standard",
-    "start-dev": "DEBUG=pardsrl-influx:* nodemon server.js"
+    "dev": "DEBUG=pardsrl-influx:* nodemon server.js"
   },
   "repository": {
     "type": "git",
