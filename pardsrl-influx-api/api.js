@@ -106,7 +106,7 @@ api.get('/histogram/:host', async (req, res, next) => {
     try {
       filters = JSON.parse(filters)
     } catch (err) {
-      return next(new Error(err.message))
+      return next(new Error('Invalid filters provided'))
     }
   }
 

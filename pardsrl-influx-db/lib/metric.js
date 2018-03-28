@@ -118,7 +118,7 @@ module.exports = function setupMetric (influx) {
    */
   async function write(metrics){
 
-    let result = await influx.writePoints(metrics).catch(err => {
+    let result = await influx.writePoints(metrics, { precision: 'ms' }).catch(err => {
       debug(`${chalk.red('[Error]')} Write points failed! ${err.stack}`)
       throw err
     })

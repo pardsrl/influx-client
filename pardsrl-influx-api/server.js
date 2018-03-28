@@ -17,7 +17,7 @@ app.use('/api', api)
 
 // Express Error Handler
 app.use((err, req, res, next) => {
-  debug(`App Error: ${err.message}`)
+  debug(`App Error: ${err.stack}`)
 
   if (err.message.match(/not found/)) {
     return res.status(404).send({ error: err.message })
