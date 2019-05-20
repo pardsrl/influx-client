@@ -22,4 +22,4 @@ RUN cd pardsrl-influx-api \
 # Expose the listening port of your app
 EXPOSE 8081
 
-CMD [ "pm2-runtime", "start", "ecosystem.config.js" ]
+CMD [ "pm2-runtime", "start", "ecosystem.config.js", "--no-daemon"]
