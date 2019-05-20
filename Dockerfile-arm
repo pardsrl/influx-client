@@ -15,6 +15,8 @@ ENV NPM_CONFIG_LOGLEVEL warn
 #     && rm -rf /var/cache/apk/*
 RUN npm install pm2 -g 
 RUN cd pardsrl-influx-api \
+    && npm install --production \
+    && cd ../pardsrl-influx-db \
     && npm install --production
 
 # Expose the listening port of your app
