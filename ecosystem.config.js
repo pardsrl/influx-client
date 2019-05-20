@@ -1,6 +1,6 @@
 module.exports = {
   apps: [{
-    name: 'influx db server',
+    name: 'influx api server',
     script: './pardsrl-influx-api/server.js',
     // docker env config
     watch: true,

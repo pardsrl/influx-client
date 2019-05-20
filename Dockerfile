@@ -14,10 +14,10 @@ ENV NPM_CONFIG_LOGLEVEL warn
 #     build-base \
 #     && rm -rf /var/cache/apk/*
 
-RUN cd pardsrl-influx-api &&\
-    npm install --production
+RUN cd pardsrl-influx-api \
+    && npm install --production
 
 # Expose the listening port of your app
-EXPOSE 1883
+EXPOSE 8081
 
 CMD [ "pm2-runtime", "start", "ecosystem.config.js" ]
